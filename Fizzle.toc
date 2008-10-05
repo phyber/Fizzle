@@ -1,0 +1,20 @@
+﻿## Interface: 20400
+## Title: Fizzle
+## Author: phyber
+## Notes: Show item durability and quality in the character frame.
+## Notes-zhTW: 在角色視窗顯示耐久度。
+## Notes-zhCN: 在人物装备栏中显示物品品质与耐久度。
+## Version: 20400-1
+## SavedVariablesPerCharacter: FizzleDB
+## X-Category: Inventory
+## X-Embeds: Ace3, LibCrayon-3.0
+## X-RelSite-WoWI: 5018
+## X-Website: http://phyber.wowinterface.com/
+## X-WoWIPortal: phyber
+## OptionalDeps: Ace3, LibCrayon-3.0, Voyeur
+
+embeds.xml
+Locales\locales.xml
+
+Core.lua
+Inspect.lua

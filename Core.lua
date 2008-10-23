@@ -1,5 +1,5 @@
 -- Create the addon
-Fizzle = LibStub("AceAddon-3.0"):NewAddon("Fizzle", "AceEvent-3.0", "AceHook-3.0", "AceConsole-3.0")
+Fizzle = LibStub("AceAddon-3.0"):NewAddon("Fizzle", "AceEvent-3.0", "AceBucket-3.0", "AceHook-3.0", "AceConsole-3.0")
 local defaults = {
 	profile = {
 		Percent = true,
@@ -247,11 +247,13 @@ end
 
 function Fizzle:CharacterFrame_OnShow()
 	self:RegisterEvent("UNIT_INVENTORY_CHANGED", "UpdateItems")
+	self:RegisterBucketEvent("UPDATE_INVENTORY_ALERTS", 1, "UpdateItems")
 	self:UpdateItems()
 end
 
 function Fizzle:CharacterFrame_OnHide()
-	self:UnregisterEvent("UNIT_INVENTORY_CHANGED", "UpdateItems")
+	self:UnregisterEvent("UNIT_INVENTORY_CHANGED")
+	self:UnregisterBucket("UPDATE_INVENTORY_ALERTS")
 end
 
 -- Border colouring split into two functions so I only need to iterate over each table once.

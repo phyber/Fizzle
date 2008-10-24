@@ -114,8 +114,8 @@ function Fizzle:OnInitialize()
 	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("Fizzle", getOptions)
 	LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Fizzle", GetAddOnMetadata("Fizzle", "Title"))
 	-- Register chat command to open options dialog
-	self:RegisterChatCommand("fizzle", function() InterfaceOptionsFrame_OpenToFrame(LibStub("AceConfigDialog-3.0").BlizOptions["Fizzle"].frame) end)
-	self:RegisterChatCommand("fizz", function() InterfaceOptionsFrame_OpenToFrame(LibStub("AceConfigDialog-3.0").BlizOptions["Fizzle"].frame) end)
+	self:RegisterChatCommand("fizzle", function() InterfaceOptionsFrame_OpenToCategory(LibStub("AceConfigDialog-3.0").BlizOptions["Fizzle"].frame) end)
+	self:RegisterChatCommand("fizz", function() InterfaceOptionsFrame_OpenToCategory(LibStub("AceConfigDialog-3.0").BlizOptions["Fizzle"].frame) end)
 end
 
 function Fizzle:OnEnable()

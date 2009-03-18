@@ -119,8 +119,8 @@ function Fizzle:OnInitialize()
 end
 
 function Fizzle:OnEnable()
-	self:SecureHook("CharacterFrame_OnShow")
-	self:SecureHook("CharacterFrame_OnHide")
+	self:SecureHookScript(CharacterFrame, "OnShow", "CharacterFrame_OnShow")
+	self:SecureHookScript(CharacterFrame, "OnHide", "CharacterFrame_OnHide")
 	if not bordersCreated then
 		self:MakeTypeTable()
 	end

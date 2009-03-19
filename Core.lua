@@ -258,15 +258,13 @@ end
 
 function Fizzle:CharacterFrame_OnShow()
 	self:RegisterEvent("UNIT_INVENTORY_CHANGED", "UpdateItems")
-	self:RegisterBucketEvent("UPDATE_INVENTORY_ALERTS", 1, "UpdateItems")
-	self:RegisterBucketEvent("PLAYER_MONEY", 0.5, "UpdateItems")
+	self:RegisterBucketEvent("UPDATE_INVENTORY_DURABILITY", 0.5, "UpdateItems")
 	self:UpdateItems()
 end
 
 function Fizzle:CharacterFrame_OnHide()
 	self:UnregisterEvent("UNIT_INVENTORY_CHANGED")
-	self:UnregisterBucket("UPDATE_INVENTORY_ALERTS")
-	self:UnregisterBucket("PLAYER_MONEY")
+	self:UnregisterBucket("UPDATE_INVENTORY_DURABILITY")
 end
 
 -- Border colouring split into two functions so I only need to iterate over each table once.

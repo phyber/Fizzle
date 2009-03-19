@@ -7,11 +7,11 @@
 ## Version: @project-version@
 ## SavedVariablesPerCharacter: FizzleDB
 ## X-Category: Inventory
-## X-Embeds: Ace3, LibCrayon-3.0
+## X-Embeds: Ace3
 ## X-RelSite-WoWI: 5018
 ## X-Website: http://phyber.wowinterface.com/
 ## X-WoWIPortal: phyber
-## OptionalDeps: Ace3, LibCrayon-3.0, Voyeur
+## OptionalDeps: Ace3, Voyeur
 
 #@no-lib-strip@
 embeds.xml

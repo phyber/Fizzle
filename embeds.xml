@@ -11,6 +11,4 @@
 	<Include file="Libs\AceBucket-3.0\AceBucket-3.0.xml"/>
 	<Include file="Libs\AceTimer-3.0\AceTimer-3.0.xml"/>
 	<Include file="Libs\AceLocale-3.0\AceLocale-3.0.xml"/>
-	
-	<Include file="Libs\LibCrayon-3.0\lib.xml"/>
 </Ui>

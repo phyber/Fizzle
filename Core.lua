@@ -13,7 +13,6 @@ local defaults = {
 	},
 }
 local L = LibStub("AceLocale-3.0"):GetLocale("Fizzle")
-local crayon = LibStub("LibCrayon-3.0")
 local fontSize = 12
 local _G = _G
 local sformat = string.format
@@ -195,6 +194,18 @@ function Fizzle:MakeTypeTable()
 	end
 end
 
+local function GetThresholdColour(percent)
+	if percent < 0 then
+		return 1, 0, 0
+	elseif percent <= 0.5 then
+		return 1, percent * 2, 0
+	elseif percent >= 1 then
+		return 0, 1, 0
+	else
+		return 2 - percent * 2, 1, 0
+	end
+end
+
 function Fizzle:UpdateItems()
 	-- Don't update unless the charframe is open.
 	-- No point updating what we can't see.
@@ -212,7 +223,7 @@ function Fizzle:UpdateItems()
 				local text
 			
 				-- Colour our string depending on current durability percentage
-				str:SetTextColor(crayon:GetThresholdColor(v1/v2))
+				str:SetTextColor(GetThresholdColour(v1/v2))
 
 				if db.Invert then
 					v1 = v2 - v1
@@ -248,12 +259,14 @@ end
 function Fizzle:CharacterFrame_OnShow()
 	self:RegisterEvent("UNIT_INVENTORY_CHANGED", "UpdateItems")
 	self:RegisterBucketEvent("UPDATE_INVENTORY_ALERTS", 1, "UpdateItems")
+	self:RegisterBucketEvent("PLAYER_MONEY", 0.5, "UpdateItems")
 	self:UpdateItems()
 end
 
 function Fizzle:CharacterFrame_OnHide()
 	self:UnregisterEvent("UNIT_INVENTORY_CHANGED")
 	self:UnregisterBucket("UPDATE_INVENTORY_ALERTS")
+	self:UnregisterBucket("PLAYER_MONEY")
 end
 
 -- Border colouring split into two functions so I only need to iterate over each table once.

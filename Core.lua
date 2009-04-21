@@ -32,6 +32,8 @@ local function getOptions()
 	local options = {
 		type = "group",
 		name = GetAddOnMetadata("Fizzle", "Title"),
+		get = function(info) return db[info[#info]] end,
+		set = function(info, value) db[info[#info]] = value end,
 		args = {
 			fizzledesc = {
 				type = "description",
@@ -44,8 +46,6 @@ local function getOptions()
 				type = "toggle",
 				order = 100,
 				width = "full",
-				get = function() return db.Percent end,
-				set = function() db.Percent = not db.Percent end,
 			},
 			border = {
 				name = L["Border"],
@@ -53,8 +53,6 @@ local function getOptions()
 				type = "toggle",
 				order = 200,
 				width = "full",
-				get = function() return db.Border end,
-				set = function() db.Border = not db.Border end,
 			},
 			invert = {
 				name = L["Invert"],
@@ -62,8 +60,6 @@ local function getOptions()
 				type = "toggle",
 				order = 300,
 				width = "full",
-				get = function() return db.Invert end,
-				set = function() db.Invert = not db.Invert end,
 			},
 			hidetext = {
 				name = L["Hide Text"],
@@ -71,8 +67,6 @@ local function getOptions()
 				type = "toggle",
 				order = 400,
 				width = "full",
-				get = function() return db.HideText end,
-				set = function() db.HideText = not db.HideText end,
 			},
 			showfull = {
 				name = L["Show Full"],
@@ -80,8 +74,6 @@ local function getOptions()
 				type = "toggle",
 				order = 500,
 				width = "full",
-				get = function() return db.DisplayWhenFull end,
-				set = function() db.DisplayWhenFull = not db.DisplayWhenFull end,
 			},
 			-- Inspect module toggle
 			inspect = {

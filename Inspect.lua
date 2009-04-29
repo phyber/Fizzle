@@ -38,8 +38,8 @@ end
 
 function mod:OnEnable()
 	if IsAddOnLoaded("Blizzard_InspectUI") then
-		self:SecureHook("InspectFrame_OnShow")
-		self:SecureHook("InspectFrame_OnHide")
+		self:SecureHookScript(InspectFrame, "OnShow", "InspectFrame_OnShow")
+		self:SecureHookScript(InspectFrame, "OnHide", "InspectFrame_OnHide")
 		self:InspectFrame_OnShow()
 	else
 		self:RegisterEvent("ADDON_LOADED")
@@ -71,10 +71,10 @@ end
 function mod:UpdateBorders()
 	if not InspectFrame:IsVisible() then return end
 	if not UnitIsPlayer("target") then return end
-	if not self:IsHooked("InspectFrame_UnitChanged") then
-		self:SecureHook("InspectFrame_UnitChanged", "UpdateBorders")
-	end
-	self:RegisterEvent("UNIT_INVENTORY_CHANGED", "UpdateBorders")
+	--if not self:IsHooked("InspectFrame_UnitChanged") then
+	--	self:SecureHook("InspectFrame_UnitChanged", "UpdateBorders")
+	--end
+	-- Now colour the borders.
 	for _, item in ipairs(slots) do
 		local id
 		if _G["Character".. item .."Slot"] then
@@ -106,8 +106,8 @@ end
 function mod:ADDON_LOADED()
 	-- If the Blizzard InspectUI is loading, fire up the addon!
 	if arg1 == "Blizzard_InspectUI" then
-		self:SecureHook("InspectFrame_OnShow")
-		self:SecureHook("InspectFrame_OnHide")
+		self:SecureHookScript(InspectFrame, "OnShow", "InspectFrame_OnShow")
+		self:SecureHookScript(InspectFrame, "OnHide", "InspectFrame_OnHide")
 		self:UnregisterEvent("ADDON_LOADED")
 		self:InspectFrame_OnShow()
 	end
@@ -121,6 +121,12 @@ function mod:InspectFrame_OnShow()
 	
 	-- Update the borders
 	self:UpdateBorders()
+	-- Watch for inventory changes
+	self:RegisterEvent("UNIT_INVENTORY_CHANGED", "UpdateBorders")
+	-- Watch for target changes.
+	if not self:IsHooked("InspectFrame_UnitChanged") then
+		self:SecureHook("InspectFrame_UnitChanged", "UpdateBorders")
+	end
 end
 
 function mod:InspectFrame_OnHide()

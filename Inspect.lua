@@ -71,9 +71,6 @@ end
 function mod:UpdateBorders()
 	if not InspectFrame:IsVisible() then return end
 	if not UnitIsPlayer("target") then return end
-	--if not self:IsHooked("InspectFrame_UnitChanged") then
-	--	self:SecureHook("InspectFrame_UnitChanged", "UpdateBorders")
-	--end
 	-- Now colour the borders.
 	for _, item in ipairs(slots) do
 		local id
@@ -118,15 +115,12 @@ function mod:InspectFrame_OnShow()
 	if not booted then
 		self:CreateBorders()
 	end
-	
 	-- Update the borders
 	self:UpdateBorders()
 	-- Watch for inventory changes
 	self:RegisterEvent("UNIT_INVENTORY_CHANGED", "UpdateBorders")
 	-- Watch for target changes.
-	if not self:IsHooked("InspectFrame_UnitChanged") then
-		self:SecureHook("InspectFrame_UnitChanged", "UpdateBorders")
-	end
+	self:SecureHook("InspectFrame_UnitChanged", "UpdateBorders")
 end
 
 function mod:InspectFrame_OnHide()

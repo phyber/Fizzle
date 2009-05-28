@@ -80,7 +80,7 @@ function mod:UpdateBorders()
 		if id then
 			local link = GetInventoryItemLink("target", id)
 			local border = _G[item .."FizzspectB"]
-			if link then
+			if link and border then
 				local itemID = GetItemID(link)
 				local quality = select(3, GetItemInfo(itemID))
 				

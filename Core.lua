@@ -150,14 +150,21 @@ end
 
 function Fizzle:CreateBorder(slottype, slot, name, hasText)
 	local gslot = _G[slottype..slot.."Slot"]
+	local height = 68
+	local width = 68
+	-- Ammo slot is smaller than the rest.
+	if slot == "Ammo" then
+		height = 58
+		width = 58
+	end
 	if gslot then
 		-- Create border
 		local border = gslot:CreateTexture(slot .. name .. "B", "OVERLAY")
 		border:SetTexture("Interface\\Buttons\\UI-ActionButton-Border")
 		border:SetBlendMode("ADD")
 		border:SetAlpha(0.75)
-		border:SetHeight(68)
-		border:SetWidth(68)
+		border:SetHeight(height)
+		border:SetWidth(width)
 		border:SetPoint("CENTER", gslot, "CENTER", 0, 1)
 		border:Hide()
 

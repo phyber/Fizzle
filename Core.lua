@@ -11,6 +11,7 @@ local defaults = {
 		modules = {
 			["Inspect"] = true,
 		},
+		inspectiLevel = false,
 	},
 }
 local L = LibStub("AceLocale-3.0"):GetLocale("Fizzle")
@@ -115,6 +116,18 @@ local function getOptions()
 						Fizzle:DisableModule("Inspect")
 					end
 				end,
+			},
+			inspectilevel = {
+				name = "Inspect iLevels",
+				desc = "Show the iLevel on an inspected characters items.",
+				type = "toggle",
+				disabled = function() return not db.modules["Inspect"] end,
+				order = 610,
+				width = "full",
+				get = function() return db.inspectiLevel end,
+				set = function()
+					db.inspectiLevel = not db.inspectiLevel
+				end,
 			}
 		}
 	}
@@ -175,6 +188,12 @@ function Fizzle:CreateBorder(slottype, slot, name, hasText)
 			str:SetFont(font, fontSize, flags)
 			str:SetPoint("CENTER", gslot, "BOTTOM", 0, 8)
 		end
+
+		-- Strings for iLevels
+		local iLevelStr = gslot:CreateFontString(slot .. name .. "iLevel", "OVERLAY")
+		local font, _, flags = NumberFontNormal:GetFont()
+		iLevelStr:SetFont(font, fontSize, flags)
+		iLevelStr:SetPoint("CENTER", gslot, "TOP", 0, -5)
 	end
 end
 

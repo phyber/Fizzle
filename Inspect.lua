@@ -73,23 +73,29 @@ function mod:UpdateBorders()
 	if not UnitIsPlayer("target") then return end
 	-- Now colour the borders.
 	for _, item in ipairs(slots) do
-		local id
+		local id, iLevelStr
 		if _G["Character".. item .."Slot"] then
 			id = _G["Character".. item .."Slot"]:GetID()
+			iLevelStr = _G[item.."FizzspectiLevel"]
 		end
 		if id then
 			local link = GetInventoryItemLink("target", id)
 			local border = _G[item .."FizzspectB"]
 			if link and border then
 				local itemID = GetItemID(link)
-				local quality = select(3, GetItemInfo(itemID))
+				local _, _, quality, iLevel = GetItemInfo(itemID)
 				
 				if quality then
 					local r, g, b = GetItemQualityColor(quality)
 					border:SetVertexColor(r, g, b)
 					border:Show()
+					if Fizzle.db.profile.inspectiLevel then
+						iLevelStr:SetText(iLevel)
+						iLevelStr:Show()
+					end
 				else
 					border:Hide()
+					iLevelStr:Hide()
 				end
 			else
 				if border then

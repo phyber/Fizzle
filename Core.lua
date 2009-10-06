@@ -224,6 +224,7 @@ function Fizzle:MakeTypeTable()
 		"Trinket1",
 		"Relic",
 		"Tabard",
+		"Shirt",
 	}
          
 	for _, item in ipairs(items) do

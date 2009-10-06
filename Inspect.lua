@@ -22,6 +22,7 @@ local slots = {
 	"Trinket1",
 	"Relic",
 	"Tabard",
+	"Shirt",
 }
 local booted = false
 -- Make some blizz functions more local
@@ -73,14 +74,14 @@ function mod:UpdateBorders()
 	if not UnitIsPlayer("target") then return end
 	-- Now colour the borders.
 	for _, item in ipairs(slots) do
-		local id, iLevelStr
+		local id
 		if _G["Character".. item .."Slot"] then
 			id = _G["Character".. item .."Slot"]:GetID()
-			iLevelStr = _G[item.."FizzspectiLevel"]
 		end
 		if id then
 			local link = GetInventoryItemLink("target", id)
 			local border = _G[item .."FizzspectB"]
+			local iLevelStr = _G[item.."FizzspectiLevel"]
 			if link and border then
 				local itemID = GetItemID(link)
 				local _, _, quality, iLevel = GetItemInfo(itemID)
@@ -100,6 +101,9 @@ function mod:UpdateBorders()
 			else
 				if border then
 					border:Hide()
+				end
+				if iLevelStr then
+					iLevelStr:Hide()
 				end
 			end
 		end

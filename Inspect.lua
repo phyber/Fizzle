@@ -110,9 +110,9 @@ function mod:UpdateBorders()
 	end
 end
 
-function mod:ADDON_LOADED()
+function mod:ADDON_LOADED(event, addonname)
 	-- If the Blizzard InspectUI is loading, fire up the addon!
-	if arg1 == "Blizzard_InspectUI" then
+	if addonname == "Blizzard_InspectUI" then
 		self:SecureHookScript(InspectFrame, "OnShow", "InspectFrame_OnShow")
 		self:SecureHookScript(InspectFrame, "OnHide", "InspectFrame_OnHide")
 		self:UnregisterEvent("ADDON_LOADED")

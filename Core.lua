@@ -210,7 +210,6 @@ function Fizzle:MakeTypeTable()
 		"Hands",
 		"MainHand",
 		"SecondaryHand",
-		"Ranged",
 	}
          
 	-- Items without durability but with some quality, needed for border colouring.

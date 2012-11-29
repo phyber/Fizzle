@@ -21,6 +21,7 @@ local sformat = string.format
 local ipairs = ipairs
 local db -- We'll put our saved vars here later
 -- Make some of the inventory functions more local (ordered by string length!)
+local GetAddOnMetadata = GetAddOnMetadata
 local GetItemQualityColor = GetItemQualityColor
 local GetInventorySlotInfo = GetInventorySlotInfo
 local GetInventoryItemQuality = GetInventoryItemQuality

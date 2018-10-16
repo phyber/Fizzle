@@ -249,6 +249,16 @@ local function GetThresholdColour(percent)
 	end
 end
 
+-- Returns: current, max, percent
+local function GetDurabilityNumbers(slotId)
+    local cur, max = GetInventoryItemDurability(slotId)
+    cur, max = tonumber(cur) or 0, tonumber(max) or 0
+
+    local percent = cur / max * 100
+
+    return cur, max, percent
+end
+
 function Fizzle:UpdateItems()
 	-- Don't update unless the charframe is open.
 	-- No point updating what we can't see.
@@ -258,18 +268,17 @@ function Fizzle:UpdateItems()
 		for _, item in ipairs(items) do
 			local id, _ = GetInventorySlotInfo(item .. "Slot")
 			local str = _G[item.."FizzleS"]
-			local v1, v2 = GetInventoryItemDurability(id)
-			v1, v2 = tonumber(v1) or 0, tonumber(v2) or 0
-			local percent = v1 / v2 * 100
 
-			if (((v2 ~= 0) and ((percent ~= 100) or db.DisplayWhenFull)) and not db.HideText) then
+            local cur, max, percent = GetDurabilityNumbers(id)
+
+			if (((max ~= 0) and ((percent ~= 100) or db.DisplayWhenFull)) and not db.HideText) then
 				local text
 
 				-- Colour our string depending on current durability percentage
-				str:SetTextColor(GetThresholdColour(v1/v2))
+				str:SetTextColor(GetThresholdColour(cur / max))
 
 				if db.Invert then
-					v1 = v2 - v1
+					cur = max - cur
 					percent = 100 - percent
 				end
 
@@ -277,7 +286,7 @@ function Fizzle:UpdateItems()
 				if db.Percent then
 					text = sformat("%d%%", percent)
 				else
-					text = v1.."/"..v2
+					text = cur.."/"..max
 				end
 
 				str:SetText(text)

@@ -1,4 +1,9 @@
+#@retail@
 ## Interface: 80200
+#@end-retail@
+#@non-retail@
+# ## Interface: 11302
+#@end-non-retail@
 ## Title: Fizzle
 ## Author: phyber
 ## Notes: Show item durability and quality in the character frame.
@@ -6,12 +11,10 @@
 ## Notes-zhCN: 在人物装备栏中显示物品品质与耐久度。
 ## Version: @project-version@
 ## SavedVariablesPerCharacter: FizzleDB
+## OptionalDeps: Ace3, Voyeur
 ## X-Category: Inventory
 ## X-Embeds: Ace3
-## X-RelSite-WoWI: 5018
-## X-Website: http://phyber.wowinterface.com/
-## X-WoWIPortal: phyber
-## OptionalDeps: Ace3, Voyeur
+## X-Curse-Project-ID: 6079
 
 #@no-lib-strip@
 embeds.xml

@@ -1,6 +1,6 @@
 -- Create the addon
 Fizzle = LibStub("AceAddon-3.0"):NewAddon("Fizzle", "AceEvent-3.0", "AceBucket-3.0", "AceHook-3.0", "AceConsole-3.0")
-local self, Fizzle = Fizzle, Fizzle
+local Fizzle = Fizzle
 local defaults = {
     profile = {
         Percent = true,

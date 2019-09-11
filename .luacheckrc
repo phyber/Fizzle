@@ -39,6 +39,7 @@ read_globals = {
 
     -- API Functions
     "GetAddOnMetadata",
+    "GetBuildInfo",
     "GetInventoryItemDurability",
     "GetInventoryItemLink",
     "GetInventoryItemQuality",

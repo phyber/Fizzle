@@ -1,9 +1,9 @@
+# vim:ft=yaml:
 package-as: Fizzle
 
 externals:
     Libs/AceAddon-3.0: https://repos.wowace.com/wow/ace3/trunk/AceAddon-3.0
     Libs/AceBucket-3.0: https://repos.wowace.com/wow/ace3/trunk/AceBucket-3.0
-    Libs/AceTimer-3.0: https://repos.wowace.com/wow/ace3/trunk/AceTimer-3.0
     Libs/AceConfig-3.0: https://repos.wowace.com/wow/ace3/trunk/AceConfig-3.0
     Libs/AceConsole-3.0: https://repos.wowace.com/wow/ace3/trunk/AceConsole-3.0
     Libs/AceDB-3.0: https://repos.wowace.com/wow/ace3/trunk/AceDB-3.0
@@ -11,5 +11,10 @@ externals:
     Libs/AceGUI-3.0: https://repos.wowace.com/wow/ace3/trunk/AceGUI-3.0
     Libs/AceHook-3.0: https://repos.wowace.com/wow/ace3/trunk/AceHook-3.0
     Libs/AceLocale-3.0: https://repos.wowace.com/wow/ace3/trunk/AceLocale-3.0
+    Libs/AceTimer-3.0: https://repos.wowace.com/wow/ace3/trunk/AceTimer-3.0
     Libs/CallbackHandler-1.0: https://repos.wowace.com/wow/ace3/trunk/CallbackHandler-1.0
     Libs/LibStub: https://repos.wowace.com/wow/libstub/tags/1.0.2-70000
+
+manual-changelog:
+    filename: 'CHANGELOG.md'
+    markup: 'markdown'

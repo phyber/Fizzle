@@ -1,3 +1,7 @@
+# 80205-1
+
+  - Update `zhCN` and `zhTW` translations. Thanks, wolfcon.
+
 # 80200-4
 
   - Fixes to packaging

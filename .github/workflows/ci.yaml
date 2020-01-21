@@ -6,7 +6,8 @@ on:
       - 'master'
     tags:
       - '*'
-
+env:
+  CLASSIC_VERSION: '1.13.3'
 jobs:
   luacheck:
     name: 'Luacheck'
@@ -41,29 +42,23 @@ jobs:
             https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh
 
           chmod 700 /tmp/release.sh
-      # WoWI-ID is specified as an argument due to WoWI not supporting both
-      # Classic and Retail under a single addon, and how the release script
-      # parses the TOC.
-      #
       # Release script arguments:
       #   -d Skip upload
       #   -l Skip localisation replacements
       #   -u Use Unix line-endings
       #   -g Classic version
-      #   -w WoWInterface ID
       #
       # Release Classic Addon on both CurseForge and WoWInterface.
-      # No WoWI Classic for the moment, see
-      # https://github.com/BigWigsMods/packager/issues/33
       - name: 'Release Classic Addon'
         env:
           CF_API_KEY: ${{ secrets.CF_API_KEY }}
           GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
+          WOWI_API_TOKEN: ${{ secrets.WOWI_API_TOKEN }}
         run: |
           /tmp/release.sh \
             -l \
             -u \
-            -g 1.13.2
+            -g $CLASSIC_VERSION
       # Release Retail Addon only on WoWInterface, as CurseForge is handled
       # elsewhere.
       - name: 'Release Retail Addon'
@@ -73,5 +68,4 @@ jobs:
         run: |
           /tmp/release.sh \
             -l \
-            -u \
-            -w 5018
+            -u

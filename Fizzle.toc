@@ -1,5 +1,5 @@
 #@retail@
-## Interface: 80205
+## Interface: 80300
 #@end-retail@
 #@non-retail@
 # ## Interface: 11303
@@ -15,6 +15,7 @@
 ## X-Category: Inventory
 ## X-Embeds: Ace3
 ## X-Curse-Project-ID: 6079
+## X-WoWI-ID: 5018
 
 #@no-lib-strip@
 embeds.xml

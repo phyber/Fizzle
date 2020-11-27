@@ -1,12 +1,12 @@
 #@retail@
-## Interface: 80300
+## Interface: 90002
 #@end-retail@
 #@non-retail@
 # ## Interface: 11303
 #@end-non-retail@
 ## Title: Fizzle
 ## Author: phyber
-## Notes: Show item durability and quality in the character frame.
+## Notes: Show item ilevel, durability, and quality in the character frame.
 ## Notes-zhTW: 在角色視窗顯示耐久度。
 ## Notes-zhCN: 在人物装备栏中显示物品品质与耐久度。
 ## Version: @project-version@

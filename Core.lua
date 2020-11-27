@@ -11,6 +11,7 @@ local defaults = {
         modules = {
             ["Inspect"] = true,
         },
+        showiLevel = true,
         inspectiLevel = false,
     },
 }
@@ -26,7 +27,9 @@ local db -- We'll put our saved vars here later
 local GetAddOnMetadata = GetAddOnMetadata
 local GetItemQualityColor = GetItemQualityColor
 local GetInventorySlotInfo = GetInventorySlotInfo
+local GetInventoryItemLink = GetInventoryItemLink
 local GetInventoryItemQuality = GetInventoryItemQuality
+local GetDetailedItemLevelInfo = GetDetailedItemLevelInfo
 local GetInventoryItemDurability = GetInventoryItemDurability
 
 -- Flag to check if the borders were created or not
@@ -104,6 +107,18 @@ local function getOptions()
                     Fizzle:UpdateItems()
                 end,
             },
+            showilevel = {
+                name = "Show iLevel",
+                desc = "Show items' iLevel",
+                type = "toggle",
+                order = 510,
+                width = "full",
+                get = function() return db.showiLevel end,
+                set = function()
+                    db.showiLevel = not db.showiLevel
+                    Fizzle:UpdateItems()
+                end,
+            },
             -- Inspect module toggle
             inspect = {
                 name = L["Inspect"],
@@ -132,7 +147,7 @@ local function getOptions()
                 set = function()
                     db.inspectiLevel = not db.inspectiLevel
                 end,
-            }
+            },
         }
     }
     return options
@@ -141,8 +156,8 @@ end
 -- Detect if we're running in the Classic client
 local IsClassic
 do
-    local NUM_EXPANSIONS = 7
-    local RECENT_RETAIL_TOC = 80205
+    local NUM_EXPANSIONS = 8
+    local RECENT_RETAIL_TOC = 90002
     local GetNumExpansions = _G.GetNumExpansions
     local version = select(4, GetBuildInfo())
 
@@ -262,17 +277,21 @@ function Fizzle:MakeTypeTable()
 
     -- Items without durability but with some quality, needed for border colouring.
     nditems = {
-        "Ammo",
         "Neck",
         "Back",
         "Finger0",
         "Finger1",
         "Trinket0",
         "Trinket1",
-        "Relic",
         "Tabard",
         "Shirt",
     }
+
+    -- Ammo and Relic slots exist in Classic
+    if IsClassic() then
+        nditems[#items + 1] = "Ammo"
+        nditems[#items + 1] = "Relic"
+    end
 
     for _, item in ipairs(items) do
         self:CreateBorder("Character", item, "Fizzle", true)
@@ -304,6 +323,19 @@ local function GetDurabilityNumbers(slotId)
     local percent = cur / max * 100
 
     return cur, max, percent
+end
+
+-- Returns: ilevel
+local function GetiLevel(slotId)
+    local link = GetInventoryItemLink("player", slotId)
+
+    if link then
+        iLevel = GetDetailedItemLevelInfo(link)
+        if iLevel then
+            return iLevel
+        end
+    end
+    return nil
 end
 
 function Fizzle:UpdateItems()
@@ -342,15 +374,18 @@ function Fizzle:UpdateItems()
                 str:SetText("")
             end
 
+            -- display item levels
+            self:ShowiLevel(item, id)
+
             --Finally, colour the borders
-            if db.Border then
-                self:ColourBorders(id, item)
-            end
+            self:ColourBorders(id, item)
         end
 
-        -- Colour the borders of ND items
-        if db.Border then
-            self:ColourBordersND()
+        for _, item in ipairs(nditems) do
+            local id, _ = GetInventorySlotInfo(item .. "Slot")
+
+            self:ShowiLevel(item, id)
+            self:ColourBorders(id, item)
         end
     end
 end
@@ -366,35 +401,33 @@ function Fizzle:CharacterFrame_OnHide()
     self:UnregisterBucket("UPDATE_INVENTORY_DURABILITY")
 end
 
--- Border colouring split into two functions so I only need to iterate over each table once.
--- Border colouring for items with durability.
+
+-- Fetch and display iLevel if appropriate
+function Fizzle:ShowiLevel(item, id)
+    -- add the ilevel if desired
+    local istr = _G[item .. "FizzleiLevel"]
+    if not istr then return end
+
+    if db.showiLevel then
+        istr:SetText(GetiLevel(id))
+        istr:Show()
+    else
+        istr:Hide()
+    end
+end
+
 function Fizzle:ColourBorders(slotID, rawslot)
+    local slot = _G[rawslot.."FizzleB"]
+    if not (slot and db.Border) then return end
+
     local quality = GetInventoryItemQuality("player", slotID)
 
     if quality then
         local r, g, b, _ = GetItemQualityColor(quality)
-        _G[rawslot.."FizzleB"]:SetVertexColor(r, g, b)
-        _G[rawslot.."FizzleB"]:Show()
+        slot:SetVertexColor(r, g, b)
+        slot:Show()
     else
-        _G[rawslot.."FizzleB"]:Hide()
-    end
-end
-
--- Border colouring for items without durability
-function Fizzle:ColourBordersND()
-    for _, nditem in ipairs(nditems) do
-        if _G["Character"..nditem.."Slot"] then
-            local slotID, _ = GetInventorySlotInfo(nditem .. "Slot")
-            local quality = GetInventoryItemQuality("player", slotID)
-
-            if quality then
-                local r, g, b, _ = GetItemQualityColor(quality)
-                _G[nditem.."FizzleB"]:SetVertexColor(r, g, b)
-                _G[nditem.."FizzleB"]:Show()
-            else
-                _G[nditem.."FizzleB"]:Hide()
-            end
-        end
+        slot:Hide()
     end
 end
 

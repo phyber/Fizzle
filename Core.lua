@@ -330,7 +330,7 @@ local function GetiLevel(slotId)
     local link = GetInventoryItemLink("player", slotId)
 
     if link then
-        iLevel = GetDetailedItemLevelInfo(link)
+        local iLevel = GetDetailedItemLevelInfo(link)
         if iLevel then
             return iLevel
         end

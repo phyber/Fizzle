@@ -52,6 +52,8 @@ read_globals = {
     "UnitIsPlayer",
 
     -- FrameXML Globals
+    "WOW_PROJECT_ID",
+    "WOW_PROJECT_MAINLINE",
 
     -- Fonts
     "NumberFontNormal",

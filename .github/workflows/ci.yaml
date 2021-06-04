@@ -6,8 +6,6 @@ on:
       - 'master'
     tags:
       - '*'
-env:
-  CLASSIC_VERSION: '1.13.3'
 jobs:
   luacheck:
     name: 'Luacheck'
@@ -33,39 +31,37 @@ jobs:
       - uses: 'actions/checkout@v1'
         with:
           fetch-depth: 1
-      - name: 'Download Release Script'
-        run: |
-          curl \
-            --silent \
-            --show-error \
-            --output /tmp/release.sh \
-            https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh
-
-          chmod 700 /tmp/release.sh
       # Release script arguments:
       #   -d Skip upload
       #   -l Skip localisation replacements
       #   -u Use Unix line-endings
       #   -g Classic version
       #
+      # Release Burning Crusade Classic Addon on both CurseForge and
+      # WoWInterface.
+      - name: 'Release Burning Crusade Classic Addon'
+        env:
+          CF_API_KEY: ${{ secrets.CF_API_KEY }}
+          GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
+          WOWI_API_TOKEN: ${{ secrets.WOWI_API_TOKEN }}
+        uses: 'BigWigsMods/packager@v1'
+        with:
+          args: '-l -u -g bcc'
       # Release Classic Addon on both CurseForge and WoWInterface.
       - name: 'Release Classic Addon'
         env:
           CF_API_KEY: ${{ secrets.CF_API_KEY }}
           GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
           WOWI_API_TOKEN: ${{ secrets.WOWI_API_TOKEN }}
-        run: |
-          /tmp/release.sh \
-            -l \
-            -u \
-            -g $CLASSIC_VERSION
+        uses: 'BigWigsMods/packager@v1'
+        with:
+          args: '-l -u -g classic'
       # Release Retail Addon only on WoWInterface, as CurseForge is handled
       # elsewhere.
       - name: 'Release Retail Addon'
         env:
           GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
           WOWI_API_TOKEN: ${{ secrets.WOWI_API_TOKEN }}
-        run: |
-          /tmp/release.sh \
-            -l \
-            -u
+        uses: 'BigWigsMods/packager@v1'
+        with:
+          args: '-l -u -g retail'

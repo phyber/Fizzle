@@ -156,20 +156,7 @@ end
 -- Detect if we're running in the Classic client
 local IsClassic
 do
-    local NUM_EXPANSIONS = 8
-    local RECENT_RETAIL_TOC = 90002
-    local GetNumExpansions = _G.GetNumExpansions
-    local version = select(4, GetBuildInfo())
-
-    local function IsRetailExpansionCount()
-       return GetNumExpansions() >= NUM_EXPANSIONS
-    end
-
-    local function IsRetailExpansionToc()
-       return version >= RECENT_RETAIL_TOC
-    end
-
-    local is_retail = IsRetailExpansionCount() and IsRetailExpansionToc()
+    local is_retail = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE
     local is_classic = not is_retail
 
     -- Returns true on a Classic client or nil at other times.
@@ -270,11 +257,6 @@ function Fizzle:MakeTypeTable()
         "SecondaryHand",
     }
 
-    -- Ranged slot exists in Classic.
-    if IsClassic() then
-        items[#items + 1] = "Ranged"
-    end
-
     -- Items without durability but with some quality, needed for border colouring.
     nditems = {
         "Neck",
@@ -287,8 +269,11 @@ function Fizzle:MakeTypeTable()
         "Shirt",
     }
 
-    -- Ammo and Relic slots exist in Classic
     if IsClassic() then
+        -- Ranged slot exists in Classic.
+        items[#items + 1] = "Ranged"
+
+        -- Ammo and Relic slots exist in Classic
         nditems[#items + 1] = "Ammo"
         nditems[#items + 1] = "Relic"
     end

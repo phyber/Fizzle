@@ -37,6 +37,9 @@ read_globals = {
     -- Libraries
     "LibStub",
 
+    -- C modules
+    "C_AddOns",
+
     -- API Functions
     "GetAddOnMetadata",
     "GetBuildInfo",
@@ -61,4 +64,5 @@ read_globals = {
     -- Frames
     "CharacterFrame",
     "InspectFrame",
+    "Settings",
 }

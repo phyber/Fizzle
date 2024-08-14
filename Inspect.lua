@@ -1,4 +1,4 @@
-﻿local mod = Fizzle:NewModule("Inspect", "AceHook-3.0", "AceEvent-3.0")
+local mod = Fizzle:NewModule("Inspect", "AceHook-3.0", "AceEvent-3.0")
 local _G = _G
 local ipairs, smatch, tonumber = ipairs, string.match, tonumber
 local slots = {
@@ -25,11 +25,16 @@ local slots = {
 	"Shirt",
 }
 local booted = false
+
 -- Make some blizz functions more local
-local UnitIsPlayer = UnitIsPlayer
+local GetInventoryItemLink = GetInventoryItemLink
 local GetItemInfo = GetItemInfo
 local GetItemQualityColor = GetItemQualityColor
-local GetInventoryItemLink = GetInventoryItemLink
+local UnitIsPlayer = UnitIsPlayer
+
+-- We should have one of these.
+local IsAddOnLoaded = _G.IsAddOnLoaded or C_AddOns.IsAddOnLoaded
+
 local L = LibStub("AceLocale-3.0"):GetLocale("Fizzle")
 mod.modName = L["Inspect"]
 

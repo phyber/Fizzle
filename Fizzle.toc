@@ -1,7 +1,7 @@
-## Interface: 100000
-## Interface-Retail: 100000
-## Interface-Classic: 11307
+## Interface: 110002
 ## Interface-BCC: 20501
+## Interface-Classic: 11307
+## Interface-Retail: 110002
 ## Title: Fizzle
 ## Author: phyber
 ## Notes: Show item ilevel, durability, and quality in the character frame.

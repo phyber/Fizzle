@@ -22,15 +22,36 @@ local _G = _G
 local sformat = string.format
 local ipairs = ipairs
 local db -- We'll put our saved vars here later
+local addonOptionsFrameName
+
+-- Detect if we're running in the Classic client
+local IsClassic
+do
+    local is_retail = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE
+    local is_classic = not is_retail
+
+    -- Returns true on a Classic client or nil at other times.
+    IsClassic = function()
+        return is_classic
+    end
+end
 
 -- Make some of the inventory functions more local (ordered by string length!)
-local GetAddOnMetadata = GetAddOnMetadata
 local GetItemQualityColor = GetItemQualityColor
 local GetInventorySlotInfo = GetInventorySlotInfo
 local GetInventoryItemLink = GetInventoryItemLink
 local GetInventoryItemQuality = GetInventoryItemQuality
 local GetDetailedItemLevelInfo = GetDetailedItemLevelInfo
 local GetInventoryItemDurability = GetInventoryItemDurability
+
+-- Some functions differ between WoW versions
+local GetAddOnMetadata
+
+if IsClassic() then
+    GetAddOnMetadata = _G.GetAddOnMetadata
+else
+    GetAddOnMetadata = C_AddOns.GetAddOnMetadata
+end
 
 -- Flag to check if the borders were created or not
 local bordersCreated = false
@@ -153,19 +174,17 @@ local function getOptions()
     return options
 end
 
--- Detect if we're running in the Classic client
-local IsClassic
-do
-    local is_retail = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE
-    local is_classic = not is_retail
-
-    -- Returns true on a Classic client or nil at other times.
-    IsClassic = function()
-        return is_classic
+local function openOptions()
+    if Settings and Settings.OpenToCategory then
+        Settings.OpenToCategory(addonOptionsFrameName)
+    else
+        InterfaceOptionsFrame_OpenToCategory(addonOptionsFrameName)
     end
 end
 
 function Fizzle:OnInitialize()
+    local _
+
     -- Grab our db
     self.db = LibStub("AceDB-3.0"):New("FizzleDB", defaults)
     db = self.db.profile
@@ -175,16 +194,11 @@ function Fizzle:OnInitialize()
 
     -- Register our options
     LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("Fizzle", getOptions)
-    LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Fizzle", title)
+    _, addonOptionsFrameName = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("Fizzle", title)
 
     -- Register chat command to open options dialog
-    self:RegisterChatCommand("fizzle", function()
-        InterfaceOptionsFrame_OpenToCategory(title)
-    end)
-
-    self:RegisterChatCommand("fizz", function()
-        InterfaceOptionsFrame_OpenToCategory(title)
-    end)
+    self:RegisterChatCommand("fizzle", openOptions)
+    self:RegisterChatCommand("fizz", openOptions)
 end
 
 function Fizzle:OnEnable()
